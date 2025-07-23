@@ -67,36 +67,12 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}assets", headers=self._token)
 
     def create_asset(self, metadata: dict):
-        """
-        Parameters required not specified in Documentation:
-        model
-        name
-        manufacturer
-        status
-        configuration
-        uid
-        Parameters not required but work
-        serial
-        """
-
         return requests.post(f"{self._base_api_url}assets", headers=self._token, json=metadata)
 
     def get_asset(self, asset_id: str):
         return requests.get(f"{self._base_api_url}assets/{asset_id}", headers=self._token)
 
     def update_asset(self, asset_id: str, metadata: dict):
-        """
-        Required Parameters not specified in documentation
-        name
-        model
-        manufacturer
-        status
-        configuration (timezone, communication_threshold)
-        If Serial and UID is not specified (Which the request doesn't say it is) then it will not include it in CampbellCloud
-        When Serial and UID are not specified then the device is deleted with the delete_asset function that UID is no longer
-        valid and can not be used again for the organization.
-        """
-
         return requests.put(f"{self._base_api_url}assets/{asset_id}", headers=self._token, json=metadata)
 
     def delete_asset(self, asset_id: str):
@@ -123,10 +99,6 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}assets/{asset_id}/subscription", headers=self._token)
 
     def get_datapoints(self, aliases: str, start_epoch: int, end_epoch: int, brief=True):
-        """
-        Endpoint says no Route matched with those values. Endpoint doesn't work
-        """
-
         params = {"aliases": aliases, "startEpoch": start_epoch, "endEpoch": end_epoch, "brief": brief}
         return requests.get(f"{self._base_api_url}datapoints", headers=self._token, params=params)
 
@@ -135,11 +107,6 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}datastreams", headers=self._token, json=params)
 
     def update_datastream(self, datastream_id: str, profile: str="datastream", version: int=1):
-        """
-        Parameters required but not listed
-        field
-        """
-
         params = {"metadata": {"$profile": profile, "$version": version, "field": "Temp"}}
         return requests.put(f"{self._base_api_url}datastreams/{datastream_id}", headers=self._token, json=params)
 
@@ -155,7 +122,6 @@ class CampbellCloud:
                             headers=self._token)
 
     def update_datastream_metadata(self, datastream_id: str, metadata: dict):
-        # TODO: Needs updated
         return requests.put(f"{self._base_api_url}datastreams/{datastream_id}/metadata", headers=self._token, json=metadata)
     
     def get_datastream_datapoints(self, datastream_id: str, start_epoch: int, end_epoch: int, brief: bool=True, limit: int=100):
@@ -170,11 +136,6 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}datastreams/{datastream_id}/datapoints/count", headers=self._token, params=params)
 
     def count_datastreams(self, asset_id: str=None, station_id: str=None):
-        """
-        Endpoint is showing this error and not letting me count the number of datapoints
-        {'message': 'no Route matched with those values'}
-        """
-
         params = {"assetID": asset_id, "stationID": station_id}
         return requests.get(f"{self._base_api_url}datastreams/count", headers=self._token, params=params)
 
@@ -188,11 +149,6 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}groups/{group_id}", headers=self._token)
 
     def update_group(self, group_id: str, metadata: dict):
-        """
-        Parameters that are not listed required but actually are
-        name
-        """
-
         return requests.put(f"{self._base_api_url}groups/{group_id}", headers=self._token, json=metadata)
 
     def delete_group(self, group_id: str):
@@ -205,10 +161,6 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}groups/{group_id}/permissions", headers=self._token)
 
     def add_permission_to_group(self, group_id: str, permission_id: str):
-        """
-        How am I supposed to know what permission_id to use? Why is there not an explanation on what this parameter even is?
-        """
-
         return requests.put(f"{self._base_api_url}groups/{group_id}/permissions/{permission_id}", headers=self._token)
 
     def remove_permission_from_group(self, group_id: str, permission_id: str):
@@ -246,50 +198,24 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}station-groups", headers=self._token)
 
     def create_station_group(self, metadata):
-        """
-        Parameters required but are not listed:
-        name
-        """
-
         return requests.post(f"{self._base_api_url}station-groups", headers=self._token, json=metadata)
 
     def get_station_group(self, station_group_id: str):
         return requests.get(f"{self._base_api_url}station-groups/{station_group_id}", headers=self._token)
 
     def update_station(self, station_group_id: str, metadata: dict):
-        """
-        Parameters required but not listed
-        name
-        """
-
         return requests.put(f"{self._base_api_url}station-groups/{station_group_id}", headers=self._token, json=metadata)
 
     def delete_station_group(self, station_group_id: str):
-        """
-        Successful request is returning 200 not 204.
-        """
-
         return requests.delete(f"{self._base_api_url}station-groups/{station_group_id}", headers=self._token)
 
     def update_station_group_metadata(self, station_group_id: str, metadata: dict):
-        """
-        Successful request is returning response code of 200.
-        Parameters required but not listed in documentation are:
-        $profile
-        $version
-        """
-
         return requests.put(f"{self._base_api_url}station-groups/{station_group_id}/metadata", headers=self._token, json=metadata)
 
     def list_stations(self):
         return requests.get(f"{self._base_api_url}stations", headers=self._token)
 
     def create_station(self, metadata: dict):
-        """
-        Parameter required but not listed
-        name
-        """
-
         return requests.post(f"{self._base_api_url}stations", headers=self._token, json=metadata)
 
     def get_station(self, station_id: str):
@@ -309,11 +235,6 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}stations/{station_id}/historical/{station_historical_id}", headers=self._token)
 
     def update_station_metadata(self, station_id: str, metadata: dict):
-        """
-        Returns error on a valid request that should work:
-        {'message': 'no Route matched with those values'}
-        """
-
         return requests.put(f"{self._base_api_url}stations/{station_id}/metadata", headers=self._token, json=metadata)
 
     def list_subscriptions(self):
@@ -344,20 +265,12 @@ class CampbellCloud:
                                    "grant_type": grant_type})
 
     def refresh_token(self):
-        """
-        Requires Username and Password but documentation doesn't mention it. Even with those it doesn't work. This endpoint needs more development.
-        """
-
         return requests.put(f"{self._token_api_url}", headers=self._token, json={"refresh_token": ""})
 
     def list_users(self):
         return requests.get(f"{self._base_api_url}users", headers=self._token)
 
     def create_user(self, metadata):
-        """
-        Different organizations use different permissions. Sometimes they require an email to check etc. when this parameter is supplied
-        """
-
         return requests.post(f"{self._base_api_url}users", headers=self._token, json={"metadata": metadata})
 
     def get_user(self, user_id: str):
@@ -387,15 +300,10 @@ class CampbellCloud:
     def create_variable(self, name: str, metadata: dict):
         return requests.post(f"{self._base_api_url}variables", headers=self._token, json={"name": name, "metadata": metadata})
 
-    # ==============================================
-    #                NEW ENDPOINTS
-    # ==============================================
-
     def list_alert_configurations(self):
         return requests.get(f"{self._base_api_url}alert-configurations", headers=self._token)
 
     def create_alert_configuration(self):
-        # TODO: Update metadata and parameter list
         params = {"$profile": "configuration", "$version": 1}
         return requests.post(f"{self._base_api_url}alert-configurations", headers=self._token, json=params)
 
@@ -403,7 +311,6 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}alert-configurations/{alert_id}", headers=self._token)
 
     def update_alert_configuration(self, alert_id: str,  metadata: dict):
-        # TODO: Update metadata and parameter list
         json_params = {"$profile": "configuration", "$version": 1}
         json_params.update(metadata)
         return requests.put(f"{self._base_api_url}alert-configuration/{alert_id}", headers=self._token, json=json_params)
@@ -412,7 +319,6 @@ class CampbellCloud:
         return requests.delete(f"{self._base_api_url}alert-configurations/{alert_id}", headers=self._token)
 
     def list_alert_configuration_historical(self, alert_id: str, end_epoch: int, start_epoch: int=0, offset: int=0, limit: int=100):
-        # TODO: Update parameter types
         params = {"startEpoch": start_epoch, "endEpoch": end_epoch, "offset": offset, "limit": limit}
         return requests.get(f"{self._base_api_url}alert-configurations/{alert_id}/historical", headers=self._token, params=params)
 
@@ -420,7 +326,6 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}alert-configurations/{alert_id}/historical/{alert_historical_id}", headers=self._token)
 
     def list_alert_events(self, alert_filter: str, end_epoch: int, start_epoch: int=0, offset: int=0):
-        # TODO: Update parameter types
         params = {"startEpoch": start_epoch, "endEpoch": end_epoch, "offset": offset, "filter": alert_filter}
         return requests.get(f"{self._base_api_url}/alert-events", headers=self._token, params=params)
 
@@ -428,22 +333,18 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}alert-events/{alert_event_id}", headers=self._token)
 
     def search_alert_events(self, filters: dict):
-        # TODO: Update metadata and parameter list
         return requests.post(f"{self._base_api_url}alert_events/search", headers=self._token, json=filters)
 
     def list_alert_logs(self, alert_filter: str, end_epoch: int, start_epoch: int=0, offset: int=0, limit: int=100):
-        # TODO: Update parameter types
         params = {"startEpoch": start_epoch, "endEpoch": end_epoch, "offset": offset, "limit": limit, "filter": alert_filter}
         return requests.get(f"{self._base_api_url}alert-logs", headers=self._token, params=params)
 
     def create_alert_log(self, alert_event_id: str, metadata: dict):
-        # TODO: Update metadata and parameter list
         json_params = {"alert_event_id": alert_event_id}
         json_params.update(metadata)
         return requests.post(f"{self._base_api_url}alert-logs", headers=self._token, json=json_params)
 
     def get_alert_logs_id(self, alert_log_id: str):
-        # TODO: Update parameter types
         return requests.get(f"{self._base_api_url}alert-logs/{alert_log_id}", headers=self._token)
 
     def search_alert_logs(self, filters: dict):
@@ -473,7 +374,6 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}dashboards", headers=self._token, params=params)
 
     def create_dashboard(self, metadata: dict):
-        # TODO: Update metadata and parameter list
         return requests.post(f"{self._base_api_url}dashboards", headers=self._token, json=metadata)
 
     def get_dashboard(self, dashboard_id: str, latest: bool=True):
@@ -481,7 +381,6 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}dashboards/{dashboard_id}", headers=self._token, params=params)
 
     def update_dashboard(self, dashboard_id: str, metadata: dict):
-        # TODO: Update metadata and parameter list
         return requests.put(f"{self._base_api_url}dashboards/{dashboard_id}", headers=self._token, json=metadata)
 
     def delete_dashboard(self, dashboard_id: str):
@@ -498,14 +397,12 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}data-collections/collections", headers=self._token)
 
     def create_data_collections(self, metadata: dict):
-        # TODO: Update metadata and parameter list
         return requests.post(f"{self._base_api_url}data-collections/collections", headers=self._token, json=metadata)
 
     def get_data_collection(self, data_collection_id: str):
         return requests.get(f"{self._base_api_url}data-collections/collections/{data_collection_id}", headers=self._token)
 
     def update_data_collection(self, data_collection_id: str, metadata: dict):
-        # TODO: Update metadata and parameter list
         return requests.put(f"{self._base_api_url}data-collections/collections/{data_collection_id}", headers=self._token, json=metadata)
 
     def delete_data_collection(self, data_collection_id: str):
@@ -515,14 +412,12 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}data-collections/types", headers=self._token)
 
     def create_data_collection_type(self, metadata: dict):
-        # TODO: Update metadata and parameter list
         return requests.post(f"{self._base_api_url}data-collections/types", headers=self._token, json=metadata)
 
     def get_data_collection_type(self, data_collection_type_id: str):
         return requests.get(f"{self._base_api_url}data-collections/types/{data_collection_type_id}", headers=self._token)
 
     def update_data_collection_type(self, data_collection_type_id: str, metadata: dict):
-        # TODO: Update metadata and parameter list
         return requests.put(f"{self._base_api_url}data-collections/types/{data_collection_type_id}", headers=self._token, json=metadata)
 
     def delete_data_collection_type(self, data_collection_type_id: str):
@@ -539,28 +434,24 @@ class CampbellCloud:
         return requests.get(f"{self._base_api_url}distribution-groups", headers=self._token)
 
     def create_distribution_groups(self, metadata: dict):
-        # TODO: Update metadata and parameter list
         return requests.post(f"{self._base_api_url}distribution-groups", headers=self._token, json=metadata)
 
     def get_distribution_group(self, distribution_group_id: str):
         return requests.get(f"{self._base_api_url}distribution-groups/{distribution_group_id}", headers=self._token)
 
     def update_distribution_group(self, distribution_group_id: str, metadata: dict):
-        # TODO: Update metadata and parameter list
         return requests.put(f"{self._base_api_url}distributions-groups/{distribution_group_id}", headers=self._token, json=metadata)
 
     def delete_distribution_group(self, distribution_group_id: str):
         return requests.delete(f"{self._base_api_url}distributions-groups/{distribution_group_id}", headers=self._token)
 
     def create_export(self, metadata: dict):
-        # TODO: Update metadata and parameter list
         return requests.post(f"{self._base_api_url}exports", headers=self._token, json=metadata)
 
     def get_export(self, export_id: str):
         return requests.get(f"{self._base_api_url}exports/{export_id}", headers=self._token)
 
     def update_export(self, export_id: str, metadata: dict):
-        # TODO: Update metadata and parameter list
         return requests.put(f"{self._base_api_url}exports/{export_id}", headers=self._token, json=metadata)
 
     def delete_export(self, export_id: str):

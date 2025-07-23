@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pycampbellcloud"
-version = "0.8.2"
+version = "0.8.3"
 authors = [
     {name = "Nate Turner", email = "nathan.turner@campbellsci.com"},
 ]
 description = "A package for interfacing with Campbell Cloud API."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "requests",
 ]
@@ -18,4 +18,5 @@ license = "Apache-2.0"
 license-files = ["LICEN[CS]E*"]
 
 [project.urls]
-Homepage = "https://github.com/LlamaWhisp3r3r/PyCampbellCloud"
+Homepage = "https://github.com/LlamaWhisp3r3r/pycampbellcloud"
+Documentation = "https://us-west-2.campbell-cloud.com/api/v1/docs/"

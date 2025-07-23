@@ -1,24 +1,20 @@
 [build-system]
 requires = ["setuptools"]
-bild-backend = "setuptools.build_meta"
+build-backend = "setuptools.build_meta"
 
 [project]
-name = "PyCampbellCloud"
-version = "0.1.0"
+name = "pycampbellcloud"
+version = "0.8.2"
 authors = [
     {name = "Nate Turner", email = "nathan.turner@campbellsci.com"},
 ]
 description = "A package for interfacing with Campbell Cloud API."
 readme = "README.md"
 requires-python = ">=3.13"
-classifier = [
-    "Programming Language :: Python :: 3",
-    "Operating System :: OS Independent",
-]
 dependencies = [
     "requests",
 ]
-license = "APACHE"
+license = "Apache-2.0"
 license-files = ["LICEN[CS]E*"]
 
 [project.urls]
